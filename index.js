@@ -2,8 +2,12 @@ const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
 const connection = require("./database/database")
+
 const CategoriesController = require("./categories/CategoriesController")
 const ArticlesController = require("./articles/ArticlesController")
+
+const Article = require("./articles/Article")
+const Category = require("./categories/Category")
 
 // View Engine configuration
 app.set('view engine', 'ejs')

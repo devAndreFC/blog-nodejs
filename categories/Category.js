@@ -11,4 +11,5 @@ const Category = connection.define('categories', {
     }
 })
 
+// Category.sync({force: true}) // cria a tablema no banco
 module.exports = Category;
