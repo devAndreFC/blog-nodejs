@@ -3,7 +3,7 @@
 
 <div class="container">
     <hr>
-    <h2>Categorias</h2>
+    <h2>Artigos</h2>
     <hr>
     <table class="table table-bordered table-striped table-dark">
         <thead>
@@ -11,28 +11,29 @@
                 <th>Id</th>
                 <th>Título</th>
                 <th>Slug</th>
+                <th>Category</th>
                 <th>Ações</th>
             </tr>
         </thead>
         <tbody>
-            <% categories.forEach(category => { %>
+            
+            <% articles.forEach(article => { %>
                 <tr>
-                    <th><%= category.id %></th>
-                    <th><%= category.title %></th>
-                    <th><%= category.slug %></th>
+                    <td><%= article.id %></td>
+                    <td><%= article.title %></td>
+                    <td><%= article.slug %></td>
+                    <td><%= article.category.title %></td>
                     <th>
-                        <a href="/admin/categories/editCategory/<%= category.id %>" class="btn btn-warning">Editar</a>
-                        <form method="POST" action="/categories/delete" style="display: inline;" onsubmit="confirmarDelecao(event, this)">
-                            <input type="hidden" name="id" value="<%= category.id %>">
+                        <form method="POST" action="/articles/delete" style="display: inline;" onsubmit="confirmarDelecao(event, this)">
+                            <input type="hidden" name="id" value="<%= article.id %>">
                             <button class="btn btn-danger">Deletar</button>               
                         </form>
- 
-                    </th>    
+                    </th>
                 </tr>
             <% }) %>
         </tbody>
     </table>
-    <a class="btn btn-success" href="/admin/categories/newCategory">Criar categoria</a>
+    <a class="btn btn-success" href="/admin/articles/newArticle">Novo artigo</a>
 </div>
 <br>
 <%- include('../../partials/footer.ejs') %>
