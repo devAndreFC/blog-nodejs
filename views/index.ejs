@@ -2,7 +2,49 @@
 <%- include('partials/homenavbar.ejs') %>
 
 <body>
-    <h1>Index</h1>
+
+    <hr>
+    <div class="class jumbotron">
+        <h1 class="display-4">Bem vido ao blog do desenvolvedor backend!</h1>
+        <p class="lead">Este blog contem artigos de programação.</p>
+        <hr class="my-4">
+        <p>Descrição detalhada aqui.</p>
+        <a href="btn btn-primary btn-lg" href="#" role="button">Leia mais.</a>
+    </div>
+    <div class="container">
+        <div class="row">
+            <% articles.forEach(article => { %>
+                <div class="col-md-4">
+                    <div class="card">
+                        <!-- <img class="card-img-top" src="https://pm1.narvii.com/6661/7556411a6a02f80700febb91a6e1c8fc7e579c89_00.jpg" alt="Card image cap"> -->
+                        <div class="card-body">
+                            <h5 class="card-title"><%= article.title %></h5>
+                            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                        </div>
+                        <div class="card-footer">
+                            <small class="text-muted"><%- article.createdAt %></small>
+                   
+                        </div>
+                        <a href="/<%= article.slug %>" class="btn btn-success">Ler artigo</a>
+                    </div>
+                </div>
+            <% }) %>
+        </div>
+    </div>
+    <hr>
 </body>
 
+
 <%- include('partials/footer.ejs') %>
+
+<script>
+  function formatDate(dateString) {
+    const date = new Date(dateString);
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = String(date.getFullYear()).slice(-2);
+
+  return `${day}/${month}/${year}`;
+}
+
+</script>
