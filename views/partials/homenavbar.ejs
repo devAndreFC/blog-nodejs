@@ -21,7 +21,7 @@
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
             <% categories.forEach(category =>{ %>
-              <a class="dropdown-item" href="#"><%= category.title %></a>
+              <a class="dropdown-item" href="/category/<%= category.slug %>"><%= category.title %></a>
             <% }) %>
           </div>
         </li>
