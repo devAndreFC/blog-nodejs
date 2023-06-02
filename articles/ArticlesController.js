@@ -94,4 +94,43 @@ router.post('/articles/delete', (req, res) => {
     }
 })
 
+// paginacao de artigos
+router.get("/articles/page/:num",(req, res) => {
+    var page = req.params.num;
+    var offset = 0;
+    limit = 3
+
+    if(isNaN(page) || page == 1){
+        offset = 0;
+    }else{
+        offset = (parseInt(page) - 1) * limit;
+    }
+
+    Article.findAndCountAll({
+        limit: limit,
+        offset: offset,
+        order: [
+            ['id', 'DESC' ]
+        ]
+    }).then(articles => {
+        var next;
+        if(offset + limit >= articles.count){
+            next = false;
+        }else{
+            next = true;
+        }
+
+        var result = {
+            page: parseInt(page),
+            next: next,
+            articles : articles
+        }
+        
+        Category.findAll().then(categories => {
+            res.render("admin/articles/page", {result: result, categories: categories});
+        })
+    })
+
+})
+
 module.exports = router;

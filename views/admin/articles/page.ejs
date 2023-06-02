@@ -1,19 +1,12 @@
-<%- include('partials/header.ejs') %>
-<%- include('partials/homenavbar.ejs') %>
+<%- include('../../partials/header.ejs') %>
+<%- include('../../partials/homenavbar.ejs') %>
 
 <body>
 
     <hr>
-    <div class="class jumbotron">
-        <h1 class="display-4">Bem vido ao blog do desenvolvedor backend!</h1>
-        <p class="lead">Este blog contem artigos de programação.</p>
-        <hr class="my-4">
-        <p>Descrição detalhada aqui.</p>
-        <a href="btn btn-primary btn-lg" href="#" role="button">Leia mais.</a>
-    </div>
     <div class="container">
         <div class="row">
-            <% articles.forEach(article => { %>
+            <% result.articles.rows.forEach(article => { %>
                 <div class="col-md-4">
                     <div class="card">
                         <!-- <img class="card-img-top" src="https://pm1.narvii.com/6661/7556411a6a02f80700febb91a6e1c8fc7e579c89_00.jpg" alt="Card image cap"> -->
@@ -29,21 +22,32 @@
                     </div>
                 </div>
             <% }) %>
+            
+               
         </div>
         <hr><br>
         <nav aria-label="Page navigation example">
             <ul class="pagination justify-content-center">
-              <li class="page-item">
-                <a class="page-link" href="/articles/page/2">Next</a>
-              </li>
+                <li class="page-item">
+                    <a class="page-link" href="/" tabindex="-1">First Page</a>
+                </li>
+            <% if (result.page > 2) { %>
+                <li class="page-item">
+                    <a class="page-link" href="/articles/page/<%= result.page - 1 %>" tabindex="-1">Previous</a>
+                </li>
+            <% } %> 
+            <% if (result.next) { %>
+                <li class="page-item">
+                    <a class="page-link" href="/articles/page/<%= result.page + 1 %>">Next</a>
+                </li>
+            <% } %> 
             </ul>
-            
-          </nav>
+        </nav>
     </div>
     <hr>
 </body>
 
 
-<%- include('partials/footer.ejs') %>
+<%- include('../../partials/footer.ejs') %>
 
 </script>
