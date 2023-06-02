@@ -13,7 +13,7 @@
                 <hr>
                 <textarea class="form-control" name="body" id="article" cols="30" rows="10" placeholder="Escreva seu artigo aqui."></textarea>
                 <br>
-                <label for="">Categoria</label>
+                <label for="">Categoria atual: </label>
                 <select name="category" class="form-control" id="">
                     <% categories.forEach((category) => { %>
                         <option value="<%= category.id %>"><%= category.title %></option>
