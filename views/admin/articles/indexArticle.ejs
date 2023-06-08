@@ -5,29 +5,26 @@
     <hr>
     <h2>Artigos</h2>
     <hr>
-    <table class="table table-bordered table-striped table-dark">
-        <thead>
+    <table class="table table-bordered table-striped">
+        <thead class="thead-dark">
             <tr>
                 <th>Id</th>
                 <th>Título</th>
-                <th>Slug</th>
                 <th>Category</th>
                 <th>Ações</th>
             </tr>
         </thead>
         <tbody>
-            
             <% articles.forEach(article => { %>
                 <tr>
                     <td><%= article.id %></td>
                     <td><%= article.title %></td>
-                    <td><%= article.slug %></td>
                     <td><%= article.category.title %></td>
                     <th>
                         <a href="/admin/articles/editArticle/<%= article.id %>" class="btn btn-warning">Editar</a>
                         <form method="POST" action="/articles/delete" style="display: inline;" onsubmit="confirmarDelecao(event, this)">
                             <input type="hidden" name="id" value="<%= article.id %>">
-                            <button class="btn btn-danger">Deletar</button>               
+                            <button class="btn btn-danger" style="display: inline;">Deletar</button>               
                         </form>
                     </th>
                 </tr>

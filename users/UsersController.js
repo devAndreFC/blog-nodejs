@@ -42,20 +42,27 @@ router.get('/login', (req, res) => {
     res.render("admin/users/loginUser")
 })
 
+// rota de logout admin
+router.get('/logout', (req, res) => {
+    req.session.user = undefined
+    res.redirect("/")
+})
+
+
 router.post('/authenticate', (req, res) => {
     var email = req.body.email
     var password = req.body.password
 
-    User.findOne({ email: email}).then(user => {
+    User.findOne({where:{ email: email}}).then(user => {
         if (user != undefined) {
             // validate password
-            var correctPassword = bcrypt.compare(password, user.password)
+            var correctPassword = bcrypt.compareSync(password, user.password)
             if (correctPassword){
                 req.session.user = {
                     id: user.id,
                     email: user.email
                 }
-                res.json(req.session.user) // para teste
+                res.redirect("/admin/articles") 
             }else {
                 res.send("senha incorreta")
             }

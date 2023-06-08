@@ -3,9 +3,10 @@ const router = express.Router();
 const Category = require('../categories/Category')
 const Article = require('./Article')
 const slugify = require('slugify')
+const adminAuth = require('../middlewares/adminAuth')
 
 // Update artigo
-router.post("/articles/updateArticle", (req, res) => {
+router.post("/articles/updateArticle", adminAuth, (req, res) => {
     var id = req.body.id
     var title = req.body.title
     var body = req.body.body
@@ -24,7 +25,7 @@ router.post("/articles/updateArticle", (req, res) => {
 })
 
 // Página edição artigo
-router.get("/admin/articles/editArticle/:id", (req, res) => {
+router.get("/admin/articles/editArticle/:id", adminAuth, (req, res) => {
     var id = req.params.id;
     if (isNaN(id)) {
         res.redirect("/admin/articles")
@@ -44,15 +45,19 @@ router.get("/admin/articles/editArticle/:id", (req, res) => {
 })
 
 
-router.get("/admin/articles", (req, res) => {
-    Article.findAll({
+router.get("/admin/articles", adminAuth, (req, res) => {
+    Article.findAll({        
+        order: [
+        ['id', 'DESC' ]
+    ],
         include: [{model: Category}]
     }).then(articles => {
+        // res.json({ articles: articles });
         res.render("admin/articles/indexArticle", {articles: articles})
     })
 })
 
-router.get("/admin/articles/newArticle", (req, res) => {
+router.get("/admin/articles/newArticle", adminAuth, (req, res) => {
     Category.findAll().then(categories => {
         res.render("admin/articles/newArticle", {categories: categories})
     })
@@ -60,7 +65,7 @@ router.get("/admin/articles/newArticle", (req, res) => {
 
 
 // create a new article
-router.post("/articles/saveArticle", (req, res) => {
+router.post("/articles/saveArticle", adminAuth, (req, res) => {
     var title = req.body.title
     var body = req.body.body
     var category = req.body.category
@@ -75,7 +80,7 @@ router.post("/articles/saveArticle", (req, res) => {
     })
 })
 
-router.post('/articles/delete', (req, res) => {
+router.post('/articles/delete', adminAuth, (req, res) => {
     var id = req.body.id
     if (id != undefined) {
         if(!isNaN(id)) {
@@ -95,10 +100,10 @@ router.post('/articles/delete', (req, res) => {
 })
 
 // paginacao de artigos
-router.get("/articles/page/:num",(req, res) => {
+router.get("/articles/page/:num", (req, res) => {
     var page = req.params.num;
     var offset = 0;
-    limit = 3
+    limit = 6
 
     if(isNaN(page) || page == 1){
         offset = 0;

@@ -2,15 +2,17 @@ const express = require('express');
 const router = express.Router();
 const Category = require('./Category');
 const slugify = require('slugify');
+const adminAuth = require('../middlewares/adminAuth')
+
 // const flash = require('connect-flash');
 
 // Ver categories
-router.get("/admin/categories/newCategory", (req, res) => {
+router.get("/admin/categories/newCategory", adminAuth, (req, res) => {
     res.render("admin/categories/newCategory")
 })
 
 // Update categoria
-router.post("/categories/updateCategory", (req, res) => {
+router.post("/categories/updateCategory", adminAuth, (req, res) => {
     var id = req.body.id
     var title = req.body.title
 
@@ -25,7 +27,7 @@ router.post("/categories/updateCategory", (req, res) => {
 })
 
 // Página edição Category
-router.get("/admin/categories/editCategory/:id", (req, res) => {
+router.get("/admin/categories/editCategory/:id", adminAuth, (req, res) => {
     var id = req.params.id;
     if (isNaN(id)) {
         res.redirect("/admin/categories")
@@ -43,7 +45,7 @@ router.get("/admin/categories/editCategory/:id", (req, res) => {
 })
 
 // Deletar category
-router.post("/categories/delete", (req, res) => {
+router.post("/categories/delete", adminAuth, (req, res) => {
     var id = req.body.id
     if (id !== undefined) {
         if (!isNaN(id)) {
@@ -63,7 +65,7 @@ router.post("/categories/delete", (req, res) => {
 })
 
 // Criar category
-router.post("/categories/save", (req, res) => {
+router.post("/categories/save", adminAuth, (req, res) => {
     var title = req.body.title // atributo 'name' do campo que desejo pegar
     if (title != undefined) {
         Category.create({
@@ -78,8 +80,11 @@ router.post("/categories/save", (req, res) => {
     }
 })
 
-router.get("/admin/categories", (req, res) => {
-    Category.findAll().then(categories => {
+router.get("/admin/categories", adminAuth, (req, res) => {
+    Category.findAll({
+        order: [
+        ['id', 'DESC' ]]}
+    ).then(categories => {
         res.render("admin/categories/indexCategory", {categories: categories})
     })
     

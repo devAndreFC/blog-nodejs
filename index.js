@@ -14,7 +14,7 @@ const User = require("./users/User")
 
 // sessions
 app.use(session({
-    secret: "secret", cookie: {maxAge: 30000}
+    secret: "secret", cookie: {maxAge: 3000000}
 }))
 
 // View Engine configuration
@@ -40,33 +40,11 @@ app.use("/", CategoriesController);
 app.use("/", ArticlesController);
 app.use("/", UserController);
 
-//rota de session para teste. será apagada
-// app.get("/session", (req, res) => {
-//     req.session.treinamento = "formação node.js"
-//     req.session.ano = 2023
-//     req.session.email = "email@teste.com"
-//     req.session.user = {
-//         username: "andre",
-//         email: "andre@email.com",
-//         id: 10
-//     }
-//     res.send("sessao gerada")
-// })
-
-// app.get("/leitura", (req, res) => {
-//     res.json({
-//         treinamento: req.session.treinamento,
-//         ano: req.session.ano,
-//         email: req.session.email,
-//         user: req.session.user
-//     })
-// })
-
 app.get("/", (req, res) => {
     Article.findAll({
         order: [
             ['id', 'DESC' ]
-        ], limit: 3
+        ], limit: 6
     }).then(articles => {
         Category.findAll().then(categories => {
             res.render("index", {articles: articles, categories: categories });  
